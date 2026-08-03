@@ -1,8 +1,8 @@
 {
   "name": "cldk-devtools",
   "displayName": "CLDK DevTools",
-  "description": "The CLDK developer's mode ladder: skills for designing, building, maintaining, and releasing CodeLLM-DevKit — from a language's backend analyzer through the frontend SDKs, plus day-to-day upkeep across the codellm-devkit org.",
-  "version": "0.3.0",
+  "description": "The CLDK developer's mode ladder: skills for designing, building, maintaining, and releasing CodeLLM-DevKit \u2014 from a language's backend analyzer through the frontend SDKs, plus day-to-day upkeep across the codellm-devkit org.",
+  "version": "0.4.0",
   "author": {
     "name": "Rahul Krishna",
     "email": "i.m.ralk@gmail.com"
@@ -10,5 +10,13 @@
   "homepage": "https://codellm-devkit.info",
   "repository": "https://github.com/codellm-devkit/cldk-devtools",
   "license": "Apache-2.0",
-  "keywords": ["cldk", "codellm-devkit", "code-analysis", "static-analysis", "dataflow", "skills", "mode-ladder"]
+  "keywords": [
+    "cldk",
+    "codellm-devkit",
+    "code-analysis",
+    "static-analysis",
+    "dataflow",
+    "skills",
+    "mode-ladder"
+  ]
 }

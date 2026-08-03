@@ -40,6 +40,11 @@ while asking.
 ```
                      using-cldk-devtools  (dispatcher)
                               │
+   too plural for one design  │
+              ▼               │
+   planning-cldk-work         │   roadmap doc + ONE epic
+        │ pick one decision   │
+        ▼                     ▼
         structural work       │ upkeep work
               ▼               ▼
    designing-cldk-changes   maintaining-cldk
@@ -58,6 +63,7 @@ while asking.
 
 | Work type | Entry point | Path |
 | --- | --- | --- |
+| **Work too plural for one design session** — a theme that decomposes into several contract decisions ("microservice analysis"), or several initiatives competing for a quarter | planning-cldk-work | plan → design (one decision) → … |
 | New language for CLDK | designing-cldk-changes | design → backend → frontend → finishing |
 | Schema v2 evolution / migration | designing-cldk-changes | design → backend (all affected analyzers) → frontend (all affected SDKs) → finishing |
 | New analysis level (L2/L3/L4) for a language | designing-cldk-changes | design → backend → frontend (if surface changes) → finishing |
@@ -72,6 +78,9 @@ while asking.
 | Rationalization | Reality |
 | --- | --- |
 | "It's just a small schema tweak" | Schema changes enter at designing-cldk-changes. |
+| "They named two things, so this is planning" | Count contract decisions, not nouns. The test is: *can this be stated as ONE contract decision?* Yes → design mode. Go L3/L4 is two levels of one decision, not a roadmap. |
+| "They named one thing, so this is design" | Same test, other direction. "Microservice analysis" is one *theme* containing several decisions — boundary edges, topology, entrypoints — so it is planning even though they named one thing. |
+| "We're planning several things, I'll design them all now" | Planning is shallow across many; design is deep on one. Run the collision sweep, then design the one that starts. |
 | "I'll patch the SDK model directly" | Check the schema contract first — enter the ladder. |
 | "This fix is analyzer-local" | Siblings share the schema. maintaining-cldk runs the propagation sweep. |
 | "I'll release manually just this once" | Releases go through finishing-cldk-work. |
