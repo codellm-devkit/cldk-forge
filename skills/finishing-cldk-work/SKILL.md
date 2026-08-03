@@ -69,7 +69,7 @@ Never tag off a stale local build; the tag is what the pipeline trusts.
 Docs updates, issue/epic bookkeeping, and following the propagation verdict
 through — full etiquette in `references/docs-and-closeout.md`. In brief:
 update the surfaces that describe what changed, close the child issue(s)
-this work resolves, tick the epic's checklist if one exists, and for every
+this work resolves (sub-issue progress rolls up on its own), and for every
 repo the propagation verdict listed, file the follow-on issue before
 stopping — a verdict that lists a repo and gets no issue is a dropped
 thread, not a closed one.
@@ -77,5 +77,10 @@ thread, not a closed one.
 ## Terminal State
 
 finishing-cldk-work is the ladder's exit. If the propagation verdict listed
-follow-on repos, each becomes a new maintaining-cldk entry (file the issues
-before stopping).
+follow-on repos, each becomes a new maintaining-cldk entry.
+
+**Checkpoint before re-entering.** Report what shipped and what the propagation
+verdict found, then `AskUserQuestion` — file the follow-on issues and start the
+first one now, file them and stop, or stop here entirely (see
+`using-cldk-devtools` → Transition Checkpoint). Re-entering the ladder is a
+transition like any other; do not roll straight from a release into new work.

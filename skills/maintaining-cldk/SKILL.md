@@ -33,9 +33,14 @@ If it's real and local, continue to the gate below.
 
 <HARD-GATE>
 If the fix changes schema v2 output (any node/edge/field, even optional
-additions) or a public SDK API, STOP. This is structural work: invoke
-designing-cldk-changes. 'Optional so it can't break anyone' is the canonical
+additions) or a public SDK API, STOP. This is structural work and cannot be
+done here. 'Optional so it can't break anyone' is the canonical
 rationalization — additive fields are still contract changes.
+
+Report the verdict plainly, then CHECKPOINT before moving: `AskUserQuestion`
+whether to enter designing-cldk-changes now, park it as an issue for later, or
+stop. The verdict is not negotiable; the timing is the user's. Never offer
+"patch it here anyway" as an option.
 </HARD-GATE>
 
 ## 2. Fix Loop
@@ -61,6 +66,12 @@ lesser one than skipping the contract gate.
 The ONLY skill you invoke after maintaining-cldk is finishing-cldk-work (or
 designing-cldk-changes via the contract gate; or stop at a triage verdict if
 there is nothing to fix).
+
+**Checkpoint first.** Do not auto-invoke it. State what you finished, name the
+next skill and why, then `AskUserQuestion` — proceed now, take a different path,
+or stop here (see `using-cldk-devtools` → Transition Checkpoint). When the
+contract gate fired, report the verdict plainly *and still ask* whether to enter
+design mode now; the verdict is not up for negotiation, the timing is.
 
 ## Red Flags
 

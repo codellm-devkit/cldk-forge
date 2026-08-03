@@ -31,13 +31,14 @@ Decision step.
 
 - **Close the child issue(s)** this work resolves, with a comment naming the merge commit / release
   tag that resolved it — not a bare "done."
-- **Tick the epic's checklist**, if this work traces to one (`designing-cldk-changes`'s epic + child
-  issue structure, `skills/designing-cldk-changes/references/epic-and-issue-templates.md`). A child
-  issue closing is what advances the epic's `CHILDREN` checklist; go edit the epic, don't leave it
-  for someone else to notice the child closed.
-- **Don't close the epic itself** until every child on its checklist is closed and its own
-  Definition of Done (gates green across every affected repo, versions pinned in lockstep, docs
-  updated) is genuinely satisfied — not just the child you personally worked.
+- **Nothing to tick.** Epics track children as **native GitHub sub-issues**, so closing a child
+  advances the epic's progress automatically. Do not hand-maintain a `CHILDREN` checklist and do
+  not add `Part of #N` trailers — if you find an epic still carrying either, convert it to
+  sub-issues rather than updating it by hand (see
+  `skills/designing-cldk-changes/references/epic-and-issue-templates.md`).
+- **Don't close the epic itself** until every sub-issue is closed and its own Definition of Done
+  (gates green across every affected repo, versions pinned in lockstep, docs updated) is genuinely
+  satisfied — not just the child you personally worked.
 - For work with no epic (most `maintaining-cldk` entries — a bug fix or small feature stands alone),
   closing its single issue with the resolving commit/release reference is the whole of closeout on
   this axis.

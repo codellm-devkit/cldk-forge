@@ -6,9 +6,10 @@ description: Use when a CLDK change is structural — a new language, schema v2 
 # Designing CLDK changes
 
 The design mode of the CLDK ladder. Structural work — anything that moves the
-shared contract or spans repos — is designed here, as a spec plus a GitHub epic,
-**before** any implementation rung runs. You own contract evolution; the rungs
-(`codeanalyzer-backend`, `cldk-sdk-frontend`) consume what you decide.
+shared contract or spans repos — is designed here, as a spec plus a GitHub
+tracking record, **before** any implementation rung runs. You own contract
+evolution; the rungs (`codeanalyzer-backend`, `cldk-sdk-frontend`) consume what
+you decide.
 
 ## Entry Preconditions
 
@@ -37,7 +38,8 @@ Then state the change-type → repos-affected mapping:
 | Docs-only structural change | — | — | docs |
 
 Siblings share the schema — a "one analyzer" change is rarely one repo. Name
-every affected repo now; each becomes a child issue below.
+every affected repo now. This list is the input to the decomposition decision
+below — it is not itself a list of issues to file.
 
 ## Design Loops
 
@@ -54,22 +56,69 @@ user's decision (`AskUserQuestion`), not a silent pick:
 A new-language change usually runs both loops; a facade-only change runs just the
 SDK loop.
 
+## Decomposition and Release Plan
+
+**Decide this WITH the user — `AskUserQuestion`, never solo.** The affected-repo
+list says what the change touches; it does not say how many issues to file.
+Filing one issue per repo per rung by reflex is how a backlog stops being
+readable, and an unreadable backlog buries the design record it was meant to
+preserve. Put both questions to the user once the triage and design loop are done:
+
+**The rule that replaces counting: tracking granularity follows PR granularity.**
+Never step count, never repo count. Does a pull request close it? Then it is an
+issue. Is it a step inside a PR? Then it is a checkbox in that issue's `GOALS`.
+
+1. **Decomposition — what tracking shape?** Offer the range, recommend one:
+   - **One work item**, rungs as checklist items — the default when the change
+     lands in one PR.
+   - **Epic + one sub-issue per PR** — when the work spans repos that ship on their
+     own clocks and need a coordination record.
+   - **Epic + a sub-issue stack** — only when a rung is genuinely heavy (a full
+     L3/L4 build, a multi-stage migration) and its units land as separate PRs.
+2. **Release plan — what ships when?** Which release or train carries each piece,
+   what gates what, and where two repos need version lockstep. A decomposition
+   without a release plan is a pile of issues in no order.
+
+Fewer, well-scoped issues beat more, thinner ones. When unsure, propose the smaller
+shape and let the user expand it.
+
+**File children just-in-time.** An epic is filed at design time; its children are
+filed as each unit is picked up, not all at once up front. The committed spec
+already records the full plan — the backlog does not need to mirror it. Issues
+filed ahead of the work are inventory, and inventory rots.
+
 ## <HARD-GATE>
 
-No implementation rung may be entered for structural work until the spec exists
-AND the GitHub epic + child issues exist. No exceptions — not for 'small additive
-changes', not for 'we'll write it up after'.
+No implementation rung may be entered for structural work until **the spec exists
+and the work is tracked on GitHub**. What "tracked" means is the decomposition
+decision above — for a single-repo change, one issue is a complete answer.
 
-## Spec → Epic → Issues
+The gate binds to the design being written down and findable. It never binds to an
+issue count: do not skip the record, and do not inflate it either.
 
-1. **Produce the spec** — the triage table, the design-loop decisions, and the
-   affected-repo list, written down.
-2. **Create the epic + child issues** with `references/epic-and-issue-templates.md`:
-   one epic holding the design summary + a checklist, and **one child issue per
-   ladder rung / PR-unit** (design → backend → frontend → finishing), each
-   filed via `gh issue create` and linked to the epic.
+## Spec → Tracking Record
 
-Only when both exist is the gate satisfied.
+1. **Produce and COMMIT the spec** — the triage table, the design-loop decisions,
+   the affected-repo list, and the release plan. Specs are committed as provenance,
+   so they are reviewable and diffable. A **single-repo** spec goes in that repo's
+   `docs/design/specs/`; a **cross-repo** spec goes in the org `.github` repo,
+   `codellm-devkit/.github` → `docs/design/specs/`, next to the epic
+   that coordinates it.
+2. **File what the decomposition decision chose**, using
+   `references/epic-and-issue-templates.md`. Issue bodies come from the org-level
+   forms in `codellm-devkit/.github` (`.github/ISSUE_TEMPLATE/epic.yml`,
+   `work_item.yml`); the reference file covers which shape, when, and how to wire
+   sub-issues.
+3. **Link the spec — do not paste it.** The epic carries a path to the committed
+   spec plus a short summary. Duplicating the design into the issue body is what
+   made epic bodies unreadable.
+
+**Epics live in `codellm-devkit/.github`** (the org config repo), never on the
+deliverable repo — that keeps working repos' trackers to work items only. Children
+are filed on the repo they change and attach as **cross-repo sub-issues**, never a
+hand-maintained `CHILDREN` checklist and never `Part of #N` trailers.
+
+Only when the spec and its tracking record both exist is the gate satisfied.
 
 ## Terminal State
 
@@ -78,13 +127,24 @@ rung: codeanalyzer-backend if any analyzer is touched, else cldk-sdk-frontend if
 only SDK surface is touched, else finishing-cldk-work (docs-only structural
 change).
 
+**Checkpoint first.** Do not auto-invoke it. Summarize the locked decisions, the
+release plan, and where the tracking record lives, then `AskUserQuestion` —
+start the first rung now, start a different one, or stop here (see
+`using-cldk-devtools` → Transition Checkpoint). Parking after the spec and epic
+is a legitimate outcome: the gate is satisfied, and implementation can start in
+a later session without losing anything.
+
 ## Red Flags
 
 | Rationalization | Reality |
 | --- | --- |
 | "We can write it up after it ships." | The gate exists precisely for this — the spec + epic are inputs to implementation, not paperwork produced afterward. |
 | "It's a small additive change." | Additive schema changes still move the shared cross-language vocabulary; they enter design, under the gate. |
-| "A decision note, not a full spec marathon." | The spec prose can be short; the epic + one-child-per-rung is not. Scale the writing, never the gate. |
-| "No epic needed — this isn't multi-stage work." | Any structural change that touches ≥1 rung gets an epic + one child per rung; the epic is the cross-repo coordination record. |
-| "A heads-up to the SDK is enough." | An affected SDK repo gets a child issue, not a courtesy ping — it is on the ladder. |
+| "One issue can't be enough — this is structural." | Structural is about the contract moving, not about issue count. A single-repo change tracked in one well-scoped issue satisfies the gate. |
+| "I'll file one per repo per rung, to be safe." | That reflex is what makes a backlog unreadable. Decomposition is a decision you put to the user, not a default you apply. |
+| "The user is busy; I'll pick the decomposition and release plan myself." | Every divergence is the user's call — decomposition and release plan included. `AskUserQuestion`, never solo. |
+| "A heads-up to the SDK is enough." | An affected repo is tracked — as its own child when the decomposition calls for one, otherwise as a named checklist item. Not a courtesy ping. |
+| "I'll file every child now so nothing is forgotten." | The committed spec is what stops things being forgotten. Children are filed as they are picked up; filing ahead creates inventory that goes stale and buries the live issues. |
+| "I'll paste the design summary into the epic so it's self-contained." | Link the committed spec. Pasting is what made epic bodies unreadable, and a doc is reviewable and diffable where an issue body is neither. |
+| "I'll add a CHILDREN checklist so progress is visible." | Sub-issues roll up natively. A hand-maintained checklist drifts the moment anything moves, and so do `Part of #N` trailers. |
 | "I'll just patch the parser / SDK model directly." | That is implementing before triage. Run Contract-Impact Triage first. |

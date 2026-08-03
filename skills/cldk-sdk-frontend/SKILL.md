@@ -21,14 +21,18 @@ Two gates, both hard:
 `analysis.json` (per `skills/designing-cldk-changes/references/canonical-schema.md`)
 that the SDK models can validate against. Stubbing models from a schema doc or an
 unshipped analyzer is the anti-pattern — you can't validate against output that
-doesn't exist. **If the analyzer isn't emitting conformant output yet, STOP → invoke
-codeanalyzer-backend.**
+doesn't exist. **If the analyzer isn't emitting conformant output yet, STOP.** Report
+that the precondition fails and why, then checkpoint: `AskUserQuestion` whether to drop
+to codeanalyzer-backend now or stop here. Do not invoke it unasked.
 
 (b) **For any change to the facade *surface*** (a new language's facade, a new or
-changed accessor), a **spec + GitHub epic cover it**, with the surface already decided
-in the SDK facade design loop. **If it isn't designed, STOP → invoke
-designing-cldk-changes** — `skills/designing-cldk-changes/references/sdk-facade-design-loop.md`
-owns the surface-shape question; do not re-decide it here.
+changed accessor), a **spec + a GitHub tracking record cover it**, with the surface
+already decided in the SDK facade design loop. That record is whatever the
+decomposition decision chose — an epic with children, or a single issue; one issue is
+a complete answer for a single-repo change. **If it isn't designed, STOP** — then
+checkpoint: `AskUserQuestion` whether to enter designing-cldk-changes now or stop here.
+`skills/designing-cldk-changes/references/sdk-facade-design-loop.md` owns the
+surface-shape question; do not re-decide it here, and do not invoke it unasked.
 
 ## The Iron Rule
 
@@ -102,3 +106,8 @@ must be dangling-free, and a public-API-stability test is part of done.
 
 The ONLY skill you invoke after cldk-sdk-frontend is finishing-cldk-work. (A future
 cocoa rung slots in here.)
+
+**Checkpoint first.** Do not auto-invoke it. Report what the SDK now surfaces and which gates are
+green, then `AskUserQuestion` — move to finishing now, or stop here (see `using-cldk-devtools` →
+Transition Checkpoint). finishing-cldk-work releases and closes issues, so it is the last
+transition anyone wants taken on an assumption.
