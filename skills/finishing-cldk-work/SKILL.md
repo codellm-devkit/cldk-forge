@@ -69,7 +69,7 @@ Never tag off a stale local build; the tag is what the pipeline trusts.
 Docs updates, issue/epic bookkeeping, and following the propagation verdict
 through — full etiquette in `references/docs-and-closeout.md`. In brief:
 update the surfaces that describe what changed, close the child issue(s)
-this work resolves, tick the epic's checklist if one exists, and for every
+this work resolves (sub-issue progress rolls up on its own), and for every
 repo the propagation verdict listed, file the follow-on issue before
 stopping — a verdict that lists a repo and gets no issue is a dropped
 thread, not a closed one.

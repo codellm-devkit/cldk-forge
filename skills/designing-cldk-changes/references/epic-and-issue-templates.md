@@ -1,8 +1,20 @@
-# Epic + child-issue templates
+# Epic + work-item tracking
 
 This is how the **Spec → Tracking Record** step of `designing-cldk-changes` materializes on GitHub.
-The gate is not satisfied until both the spec **and** its tracking record exist. This file gives the
-template forms and the `gh` invocations for each tracking shape.
+The gate is not satisfied until both the spec **and** its tracking record exist.
+
+**The issue bodies come from the org-level templates**, not from this file:
+`codellm-devkit/.github` → `.github/ISSUE_TEMPLATE/epic.yml` and `work_item.yml`, with the
+convention written up in that repo's `CONTRIBUTING.md`. Every repo without its own templates picks
+them up automatically. This file covers what the templates cannot: **which shape to file, when to
+file it, and how to wire the pieces together.** The forms are reproduced at the bottom for
+reference — if they ever disagree with the org repo, the org repo wins.
+
+## The rule that replaces counting
+
+**Tracking granularity follows PR granularity — never step count, never repo count.** The only
+question is: *does a pull request close this?* If yes, it is an issue. If it is a step inside a PR,
+it is a checkbox in that issue's `GOALS`.
 
 ## Pick the shape first — with the user
 
@@ -12,9 +24,9 @@ smallest first:
 
 | Shape | Use when | Issue count |
 | --- | --- | --- |
-| **Single issue** | one repo is touched | 1 |
-| **Epic + one child per repo** | the work spans repos that ship on their own clocks | 1 + repos |
-| **Epic + one child per PR-unit** | a rung is genuinely heavy (full L3/L4 build, multi-stage migration) and its units land separately | 1 + units |
+| **Single work item** | the change lands in one PR | 1 |
+| **Epic + one sub-issue per PR** | the work spans repos that ship on their own clocks | 1 + PRs |
+| **Epic + a sub-issue stack** | a rung is genuinely heavy (full L3/L4 build, multi-stage migration) and its units land as separate PRs | 1 + units |
 
 **Default to the smallest shape that fits, and let the user expand it.** A backlog nobody can read
 does not preserve a design record — it buries one. Signals that you have gone too fine: a child
@@ -22,26 +34,59 @@ issue whose whole body would be one checklist line in its sibling; a "docs" chil
 sentence appended to a README; a child per rung when all the rungs are in one repo and land in one
 PR.
 
-### Single-issue shape
+### Single work item
 
-Use the **child-issue template** below, minus the `Part of` trailer. Rungs become checklist lines
-inside `GOALS`, not separate issues. Docs and release/verify become `DEFINITION OF DONE` lines. This
-is a complete answer to the gate for a single-repo change — it is not a shortcut around it.
+Use the **Work item** form. Rungs become checklist lines inside `GOALS`, not separate issues; docs
+and release/verify become `DEFINITION OF DONE` lines. This is a complete answer to the gate for a
+one-PR change — it is not a shortcut around it.
 
 ### Epic shapes
 
-- **The epic** is the cross-repo coordination record. It holds the design summary (from the spec),
-  the affected-repo list (from the Contract-Impact Triage), the locked design decisions, the
-  release plan, and a **checklist that links every child**.
-- **Each child** is a single unit of implementation work on a single repo, closed by a single PR.
-  Which repos get a child comes from the triage table; whether a heavy rung fans into PR-units is
-  the second half of the decomposition decision. When a rung does fan out, that staging lives
-  *under* the rung's child and stays linked to the epic.
-- Docs, release, and verify fold into the last implementation child's `DEFINITION OF DONE` unless
-  `docs` is a separate repo deliverable with its own PR — then it earns a child.
-
+- **The epic** is the cross-repo coordination record. It holds a short summary, a **link to the
+  committed spec** (not a paste of it), the affected-repo list, the locked design decisions, and the
+  release plan.
+- **Each child** is a single unit of work closed by a single PR, filed with the **Work item** form
+  on the repo it changes.
+- Docs, release, and verify fold into the last child's `DEFINITION OF DONE` unless `docs` is a
+  separate repo deliverable with its own PR — then it earns its own work item.
 - **Each child → a branch `<type>/issue-NNN-<short-title>` → one PR that closes it** (`Closes #NNN`).
-  The epic is closed when its checklist is complete.
+  The epic closes when its sub-issues do.
+
+## File just-in-time
+
+**Open a child when you pick up that unit, not when the epic is created.** The epic's spec link
+already records the full plan; the backlog does not need to mirror it. Filing every future unit up
+front converts a plan into inventory — un-started issues go stale, bury the live ones, and make the
+backlog unreadable. A backlog nobody can read does not preserve a design record; it hides one.
+
+The gate is satisfied by the spec plus the epic. It does not require the children to exist yet.
+
+## Sub-issues, not checklists
+
+Children are attached as **native GitHub sub-issues**. Do **not** hand-maintain a `CHILDREN`
+checklist and do **not** add `Part of <owner>/<repo>#N` trailers — GitHub does parent/child rollup
+natively, and the manual forms drift the moment anything moves.
+
+Attaching from the CLI takes the child's **`id`**, not its number:
+
+```bash
+child_id=$(gh api repos/<owner>/<repo>/issues/<child-number> --jq .id)
+gh api -X POST repos/<owner>/<epic-repo>/issues/<epic-number>/sub_issues \
+  -F sub_issue_id="$child_id"
+
+# verify
+gh api repos/<owner>/<epic-repo>/issues/<epic-number> --jq .sub_issues_summary
+```
+
+Sub-issues work across repos in the same org, so a `python-sdk` child hangs off a
+`codeanalyzer-<lang>` epic directly.
+
+## Provenance: link the spec, don't paste it
+
+`docs/superpowers/specs/` and `docs/superpowers/plans/` are **committed**. The epic links the spec
+it came from; a work item links its plan. Duplicating a design summary into an issue body is what
+made epic bodies unreadable — and a doc is reviewable in a PR and diffable over time, which an issue
+body is not.
 
 ## Placement convention
 
@@ -49,16 +94,20 @@ is a complete answer to the gate for a single-repo change — it is not a shortc
   `codeanalyzer-<lang>` repo; a schema-wide migration → the coordinating repo). Match the org's
   existing precedent — language epics live on their `codeanalyzer-<lang>` repo.
 - Each **child** lives on the repo it changes (`codeanalyzer-<lang>`, `python-sdk`, `docs`, …), and
-  its body ends with `Part of <owner>/<epic-repo>#<epic-number>` so GitHub cross-links it.
+  is attached to the epic as a sub-issue.
 
 ## Epic template
 
 ```markdown
 Title: Epic: <one-line change> (<affected surfaces, e.g. analyzer + SDK>)
 
+SPEC
+<path to the committed spec, e.g. docs/superpowers/specs/2026-07-07-v2-roadmap-design.md>
+
 SUMMARY
 <2–4 sentences from the spec: what changes and why. Name the schema-v2 impact
-explicitly — "adds a `comment` body-node kind" / "no schema change, SDK surface only".>
+explicitly — "adds a `comment` body-node kind" / "no schema change, SDK surface only".
+A summary, not a transcript — the spec link above carries the detail.>
 
 AFFECTED REPOS (from Contract-Impact Triage)
   - <repo>  — <role: new analyzer | SDK facade | docs | …>  — <rung>
@@ -74,32 +123,34 @@ RELEASE PLAN (decided with the user alongside the decomposition)
   - <what gates what — e.g. "2.0.0 gates on the Java lane; rc.* publishes without it">
   - <where two repos need version lockstep, and which side moves first>
 
-CHILDREN (per the decomposition decision; checklist updated as they land)
-  - [ ] <analyzer work> — <owner>/<repo>#NNN
-  - [ ] <SDK facade work> — <owner>/<repo>#NNN
-  - [ ] <docs / release / verify> — <owner>/<repo>#NNN
+(No CHILDREN section — children are attached as native sub-issues and roll up
+automatically. Do not hand-maintain a checklist here.)
 
 DEFINITION OF DONE (epic-level)
-  - Every child PR merged and its gate green.
+  - Every sub-issue closed and its PR's gate green.
   - Analyzer output validates against the SDK v2 models at its max_level; L1 ⊆ … ⊆ L4
     superset gate holds; parity clause holds (no renamed/repurposed shared vocabulary).
   - SDK public API unchanged (or the major bump + shims are documented).
   - Docs / CHANGELOG updated; versions pinned in lockstep.
 ```
 
-## Child-issue template
+## Work-item template
 
-Also the **single-issue** template — for a one-repo change, use this form and drop the `Part of`
-trailer, folding the rungs into `GOALS` as checklist lines.
+The org `work_item.yml` form, in prose. Used both for an epic's children and for a standalone
+one-PR change — there is no separate "single issue" form; for a standalone change you simply do not
+attach it to an epic, and rungs fold into `GOALS` as checklist lines.
 
 Keep the CAVEATS and DEFINITION OF DONE sections — they are the parts that make the issue honest.
 Fill `<slots>` from the design decisions; delete parts that don't apply.
 
 ```markdown
-Title: <rung-scoped unit of work, e.g. "codeanalyzer-<lang>: L1 symbol table + call graph">
+Title: <unit of work closed by ONE PR, e.g. "codeanalyzer-<lang>: L1 symbol table + call graph">
+
+PLAN (optional)
+<path to the committed plan, e.g. docs/superpowers/plans/2026-07-14-cpg-models.md>
 
 PROBLEM
-<What this repo lacks today and what this issue adds. One paragraph.>
+<What this repo lacks today and what this issue adds. One paragraph. Cite file:line.>
 
 SCOPE BOUNDARY
 <What this issue does NOT do — the provider/client line especially. Example: an
@@ -108,9 +159,9 @@ over that graph (cldk-sdk-frontend), out of scope here — no `taint_flows`
 section, no sources/sinks policy.>
 
 GOALS (the contract, as a checklist)
-  1. <goal>
-  2. <goal>
-  …
+  - [ ] <goal>
+  - [ ] <goal>
+  <steps that land in THIS PR are checkboxes here — they do not become issues>
 
 CAVEATS AND KNOWN RISKS
   - <substrate/tooling risk — be concrete; name the workaround>
@@ -122,40 +173,44 @@ DEFINITION OF DONE
     equals the hand-computed node set>
   - Output validates against the SDK v2 models; parity clause holds.
   - <projection / determinism / timing gates as applicable>
-
-Part of <owner>/<epic-repo>#<epic-number>
 ```
 
-## `gh issue create` invocations
+(No `Part of` trailer — the sub-issue link carries the relationship.)
 
-Create the epic first, capture its number, then the children referencing it.
+## `gh` invocations
+
+The epic is filed once, at design time. Children are filed **as each is picked up** — not all at
+once here.
 
 ```bash
-# 1. Epic (label it so it's findable; create the label once if needed)
+# 1. The epic, on the repo that owns the primary deliverable.
 gh issue create --repo <owner>/<epic-repo> \
   --title "Epic: <one-line change> (<surfaces>)" \
-  --label epic \
+  --label Epic \
   --body-file /path/to/epic-body.md
-# → note the returned issue number, call it EPIC
+# → note the returned number, call it EPIC. The gate is satisfied here:
+#   spec committed + epic filed. Children do NOT need to exist yet.
 
-# 2. One child per rung/PR-unit, each on its target repo, each linking the epic
+# 2. When you pick up a unit, file its work item on the repo it changes...
 gh issue create --repo <owner>/codeanalyzer-<lang> \
-  --title "codeanalyzer-<lang>: <analyzer unit>" \
-  --body-file /path/to/child-analyzer.md      # body ends: Part of <owner>/<epic-repo>#EPIC
+  --title "codeanalyzer-<lang>: <unit closed by one PR>" \
+  --body-file /path/to/work-item.md
+# → note the returned number, call it CHILD
 
-gh issue create --repo <owner>/python-sdk \
-  --title "python-sdk: wire <lang> (CLDK.<lang>())" \
-  --body-file /path/to/child-sdk.md           # Part of <owner>/<epic-repo>#EPIC
+# 3. ...and attach it to the epic as a sub-issue (takes the child's id, NOT its number)
+child_id=$(gh api repos/<owner>/codeanalyzer-<lang>/issues/CHILD --jq .id)
+gh api -X POST repos/<owner>/<epic-repo>/issues/EPIC/sub_issues \
+  -F sub_issue_id="$child_id"
 
-gh issue create --repo <owner>/docs \
-  --title "docs: <lang> backend row + guide" \
-  --body-file /path/to/child-docs.md          # Part of <owner>/<epic-repo>#EPIC
-
-# 3. Edit the epic body to tick the CHILDREN checklist with the returned numbers
-gh issue edit <EPIC> --repo <owner>/<epic-repo> --body-file /path/to/epic-body-updated.md
+# 4. Progress rolls up on its own — nothing to tick.
+gh api repos/<owner>/<epic-repo>/issues/EPIC --jq .sub_issues_summary
 ```
 
-Use `--body-file` (not inline `--body`) so multi-line templates survive intact.
+Use `--body-file` (not inline `--body`) so multi-line bodies survive intact.
+
+When filing interactively rather than from a script, prefer the org issue forms in the GitHub UI —
+they enforce the required sections (Scope boundary, Caveats, Definition of done) that a `--body-file`
+lets you quietly omit.
 
 ## Worked example — native dataflow (L3/L4) for a language
 

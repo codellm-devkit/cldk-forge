@@ -64,19 +64,28 @@ Filing one issue per repo per rung by reflex is how a backlog stops being
 readable, and an unreadable backlog buries the design record it was meant to
 preserve. Put both questions to the user once the triage and design loop are done:
 
+**The rule that replaces counting: tracking granularity follows PR granularity.**
+Never step count, never repo count. Does a pull request close it? Then it is an
+issue. Is it a step inside a PR? Then it is a checkbox in that issue's `GOALS`.
+
 1. **Decomposition — what tracking shape?** Offer the range, recommend one:
-   - **One issue**, rungs as checklist items — the default when a single repo is
-     touched.
-   - **Epic + one child per repo** — when the work spans repos that ship on their
+   - **One work item**, rungs as checklist items — the default when the change
+     lands in one PR.
+   - **Epic + one sub-issue per PR** — when the work spans repos that ship on their
      own clocks and need a coordination record.
-   - **Epic + one child per PR-unit** — only when a rung is genuinely heavy (a full
-     L3/L4 build, a multi-stage migration) and its units land separately.
+   - **Epic + a sub-issue stack** — only when a rung is genuinely heavy (a full
+     L3/L4 build, a multi-stage migration) and its units land as separate PRs.
 2. **Release plan — what ships when?** Which release or train carries each piece,
    what gates what, and where two repos need version lockstep. A decomposition
    without a release plan is a pile of issues in no order.
 
 Fewer, well-scoped issues beat more, thinner ones. When unsure, propose the smaller
 shape and let the user expand it.
+
+**File children just-in-time.** An epic is filed at design time; its children are
+filed as each unit is picked up, not all at once up front. The committed spec
+already records the full plan — the backlog does not need to mirror it. Issues
+filed ahead of the work are inventory, and inventory rots.
 
 ## <HARD-GATE>
 
@@ -89,12 +98,20 @@ issue count: do not skip the record, and do not inflate it either.
 
 ## Spec → Tracking Record
 
-1. **Produce the spec** — the triage table, the design-loop decisions, the
-   affected-repo list, and the release plan, written down.
+1. **Produce and COMMIT the spec** — the triage table, the design-loop decisions,
+   the affected-repo list, and the release plan. `docs/superpowers/specs/` is
+   committed as provenance, so the spec is a reviewable, diffable artifact.
 2. **File what the decomposition decision chose**, using
-   `references/epic-and-issue-templates.md`. A single issue takes the child-issue
-   template. An epic takes the epic template, and each child links back to it with
-   `Part of <owner>/<repo>#<epic>`.
+   `references/epic-and-issue-templates.md`. Issue bodies come from the org-level
+   forms in `codellm-devkit/.github` (`.github/ISSUE_TEMPLATE/epic.yml`,
+   `work_item.yml`); the reference file covers which shape, when, and how to wire
+   sub-issues.
+3. **Link the spec — do not paste it.** The epic carries a path to the committed
+   spec plus a short summary. Duplicating the design into the issue body is what
+   made epic bodies unreadable.
+
+Children attach as **native GitHub sub-issues**, never a hand-maintained `CHILDREN`
+checklist and never `Part of #N` trailers.
 
 Only when the spec and its tracking record both exist is the gate satisfied.
 
@@ -115,4 +132,7 @@ change).
 | "I'll file one per repo per rung, to be safe." | That reflex is what makes a backlog unreadable. Decomposition is a decision you put to the user, not a default you apply. |
 | "The user is busy; I'll pick the decomposition and release plan myself." | Every divergence is the user's call — decomposition and release plan included. `AskUserQuestion`, never solo. |
 | "A heads-up to the SDK is enough." | An affected repo is tracked — as its own child when the decomposition calls for one, otherwise as a named checklist item. Not a courtesy ping. |
+| "I'll file every child now so nothing is forgotten." | The committed spec is what stops things being forgotten. Children are filed as they are picked up; filing ahead creates inventory that goes stale and buries the live issues. |
+| "I'll paste the design summary into the epic so it's self-contained." | Link the committed spec. Pasting is what made epic bodies unreadable, and a doc is reviewable and diffable where an issue body is neither. |
+| "I'll add a CHILDREN checklist so progress is visible." | Sub-issues roll up natively. A hand-maintained checklist drifts the moment anything moves, and so do `Part of #N` trailers. |
 | "I'll just patch the parser / SDK model directly." | That is implementing before triage. Run Contract-Impact Triage first. |
