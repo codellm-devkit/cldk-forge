@@ -70,13 +70,16 @@ natively, and the manual forms drift the moment anything moves.
 Attaching from the CLI takes the child's **`id`**, not its number:
 
 ```bash
-child_id=$(gh api repos/<owner>/<repo>/issues/<child-number> --jq .id)
-gh api -X POST repos/<owner>/<epic-repo>/issues/<epic-number>/sub_issues \
+child_id=$(gh api repos/codellm-devkit/<child-repo>/issues/<child-number> --jq .id)
+gh api -X POST repos/codellm-devkit/codellm-devkit/issues/<epic-number>/sub_issues \
   -F sub_issue_id="$child_id"
 
 # verify
-gh api repos/<owner>/<epic-repo>/issues/<epic-number> --jq .sub_issues_summary
+gh api repos/codellm-devkit/codellm-devkit/issues/<epic-number> --jq .sub_issues_summary
 ```
+
+`<child-repo>` and the umbrella repo differ on every cross-repo epic — that is the point, and
+GitHub allows it.
 
 Sub-issues work across repos in the same org, so a `python-sdk` child hangs off a
 `codeanalyzer-<lang>` epic directly.
