@@ -25,8 +25,10 @@ doesn't exist. **If the analyzer isn't emitting conformant output yet, STOP → 
 codeanalyzer-backend.**
 
 (b) **For any change to the facade *surface*** (a new language's facade, a new or
-changed accessor), a **spec + GitHub epic cover it**, with the surface already decided
-in the SDK facade design loop. **If it isn't designed, STOP → invoke
+changed accessor), a **spec + a GitHub tracking record cover it**, with the surface
+already decided in the SDK facade design loop. That record is whatever the
+decomposition decision chose — an epic with children, or a single issue; one issue is
+a complete answer for a single-repo change. **If it isn't designed, STOP → invoke
 designing-cldk-changes** — `skills/designing-cldk-changes/references/sdk-facade-design-loop.md`
 owns the surface-shape question; do not re-decide it here.
 

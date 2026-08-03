@@ -14,10 +14,13 @@ structure, level by level**, and each level is independently shippable.
 This rung is the **implementation of an already-designed change** — it does not decide contract
 shape. Before you touch code:
 
-- A **spec and a GitHub epic** must exist, produced by `designing-cldk-changes`. They fix the
-  language, the target level(s), and every schema decision (which kinds/fields/edges this language
-  adds). **If there is no spec + epic, STOP and go to `designing-cldk-changes`** — do not scaffold,
-  do not "just start," do not settle schema shape here.
+- A **spec and a GitHub tracking record** must exist, produced by `designing-cldk-changes`. They fix
+  the language, the target level(s), and every schema decision (which kinds/fields/edges this
+  language adds). The tracking record is whatever that skill's decomposition decision chose — an
+  epic with children for cross-repo work, or a single issue for a single-repo change. **If there is
+  no spec + tracked issue, STOP and go to `designing-cldk-changes`** — do not scaffold, do not "just
+  start," do not settle schema shape here. Do not send it back merely because it is one issue rather
+  than an epic.
 - A **maintenance escalation** enters here only when it arrives **with its design decision already
   recorded** (a `.claude/SCHEMA_DECISIONS.md` entry + issue). A bare "add a field" with no design
   is not an entry — it goes back to design mode.

@@ -1,29 +1,44 @@
 # Epic + child-issue templates
 
-This is how the **Spec → Epic → Issues** step of `designing-cldk-changes` materializes on GitHub.
-The gate is not satisfied until both the spec **and** the epic + child issues exist. This file
-gives the template forms, the `gh issue create` invocations, and the one-child-per-rung rule.
+This is how the **Spec → Tracking Record** step of `designing-cldk-changes` materializes on GitHub.
+The gate is not satisfied until both the spec **and** its tracking record exist. This file gives the
+template forms and the `gh` invocations for each tracking shape.
 
-## The shape
+## Pick the shape first — with the user
 
-- **One epic issue** — the cross-repo coordination record. It holds the design summary (from the
-  spec), the affected-repo list (from the Contract-Impact Triage), the locked design decisions, and
-  a **checklist that links every child issue**. The epic is the durable design record; it is not
-  ceremony you can skip for a "small" change.
-- **One child issue per ladder rung / PR-unit.** Each child is a single unit of implementation work
-  on a single repo, closed by a single PR. Map the children straight off the triage table:
+The shape comes from the **Decomposition and Release Plan** decision in `SKILL.md`, which is put to
+the user with `AskUserQuestion`. It is not inferred from the triage table. There are three shapes,
+smallest first:
 
-  | Affected by triage | Child issue → rung |
-  | --- | --- |
-  | schema shape decided (this skill) | already done here — captured in the epic body, not a child |
-  | any analyzer touched | one child per analyzer → **codeanalyzer-backend** |
-  | any SDK surface touched | one child per SDK → **cldk-sdk-frontend** |
-  | docs / release / verify | one child → **finishing-cldk-work** |
+| Shape | Use when | Issue count |
+| --- | --- | --- |
+| **Single issue** | one repo is touched | 1 |
+| **Epic + one child per repo** | the work spans repos that ship on their own clocks | 1 + repos |
+| **Epic + one child per PR-unit** | a rung is genuinely heavy (full L3/L4 build, multi-stage migration) and its units land separately | 1 + units |
 
-  **One-child-per-rung is the default.** A single heavy rung (e.g. a full L3/L4 dataflow build) may
-  fan its child into a small stack of PR-unit sub-issues — but that staging lives *under* the rung's
-  child and stays linked to the epic; it never replaces the one-per-rung mapping with an
-  internal-build-phase mapping.
+**Default to the smallest shape that fits, and let the user expand it.** A backlog nobody can read
+does not preserve a design record — it buries one. Signals that you have gone too fine: a child
+issue whose whole body would be one checklist line in its sibling; a "docs" child that is one
+sentence appended to a README; a child per rung when all the rungs are in one repo and land in one
+PR.
+
+### Single-issue shape
+
+Use the **child-issue template** below, minus the `Part of` trailer. Rungs become checklist lines
+inside `GOALS`, not separate issues. Docs and release/verify become `DEFINITION OF DONE` lines. This
+is a complete answer to the gate for a single-repo change — it is not a shortcut around it.
+
+### Epic shapes
+
+- **The epic** is the cross-repo coordination record. It holds the design summary (from the spec),
+  the affected-repo list (from the Contract-Impact Triage), the locked design decisions, the
+  release plan, and a **checklist that links every child**.
+- **Each child** is a single unit of implementation work on a single repo, closed by a single PR.
+  Which repos get a child comes from the triage table; whether a heavy rung fans into PR-units is
+  the second half of the decomposition decision. When a rung does fan out, that staging lives
+  *under* the rung's child and stays linked to the epic.
+- Docs, release, and verify fold into the last implementation child's `DEFINITION OF DONE` unless
+  `docs` is a separate repo deliverable with its own PR — then it earns a child.
 
 - **Each child → a branch `<type>/issue-NNN-<short-title>` → one PR that closes it** (`Closes #NNN`).
   The epic is closed when its checklist is complete.
@@ -54,7 +69,12 @@ DESIGN DECISIONS (locked with the user before build starts)
   - <decision 2>
   - Scope guard: <what is explicitly OUT of scope for this change>
 
-CHILDREN (one per rung/PR-unit; checklist updated as they land)
+RELEASE PLAN (decided with the user alongside the decomposition)
+  - <which release/train carries each piece>
+  - <what gates what — e.g. "2.0.0 gates on the Java lane; rc.* publishes without it">
+  - <where two repos need version lockstep, and which side moves first>
+
+CHILDREN (per the decomposition decision; checklist updated as they land)
   - [ ] <analyzer work> — <owner>/<repo>#NNN
   - [ ] <SDK facade work> — <owner>/<repo>#NNN
   - [ ] <docs / release / verify> — <owner>/<repo>#NNN
@@ -68,6 +88,9 @@ DEFINITION OF DONE (epic-level)
 ```
 
 ## Child-issue template
+
+Also the **single-issue** template — for a one-repo change, use this form and drop the `Part of`
+trailer, folding the rungs into `GOALS` as checklist lines.
 
 Keep the CAVEATS and DEFINITION OF DONE sections — they are the parts that make the issue honest.
 Fill `<slots>` from the design decisions; delete parts that don't apply.
