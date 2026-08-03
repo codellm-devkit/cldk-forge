@@ -71,16 +71,16 @@ Attaching from the CLI takes the child's **`id`**, not its number:
 
 ```bash
 child_id=$(gh api repos/codellm-devkit/<child-repo>/issues/<child-number> --jq .id)
-gh api -X POST repos/codellm-devkit/codellm-devkit/issues/<epic-number>/sub_issues \
+gh api -X POST repos/codellm-devkit/.github/issues/<epic-number>/sub_issues \
   -F sub_issue_id="$child_id"
 
 # verify
-gh api repos/codellm-devkit/codellm-devkit/issues/<epic-number> --jq .sub_issues_summary
+gh api repos/codellm-devkit/.github/issues/<epic-number> --jq .sub_issues_summary
 ```
 
-`<child-repo>` and the umbrella repo differ on every epic — that is the point, and GitHub allows a
+`<child-repo>` and the `.github` repo differ on every epic — that is the point, and GitHub allows a
 parent and child to live in different repositories within an org. A `python-sdk` child and a
-`codeanalyzer-java` child hang off the same umbrella epic.
+`codeanalyzer-java` child hang off the same org epic.
 
 ## Provenance: link the spec, don't paste it
 
@@ -91,17 +91,21 @@ body is not.
 
 ## Placement convention
 
-**Epics live in one place: `codellm-devkit/codellm-devkit`**, the org's umbrella repo (alongside
-`ROADMAP.md` and `ECOSYSTEM.md`). Not on the deliverable repo — there is no judgement call to make
-and no precedent to match.
+**Epics live in one place: `codellm-devkit/.github`**, the org repo that already defines how the org
+works (it holds `CONTRIBUTING.md` and the issue forms). Not on the deliverable repo — there is no
+judgement call to make and no precedent to match.
 
-This is what keeps a working repo's tracker readable: `codeanalyzer-java`'s issue list then contains
-only work items, one per PR, and the coordination record sits elsewhere.
+Two properties make this the right home. It keeps a working repo's tracker readable —
+`codeanalyzer-java`'s issue list then contains only work items, one per PR. And it is **public**, so
+an outside contributor picking up a work item can still read the epic that explains it and the spec
+it links to. A private planning repo would leave public issues referencing things their reader
+cannot open.
 
-- **Epic** → `codellm-devkit/codellm-devkit`.
+- **Epic** → `codellm-devkit/.github`.
 - **Each child** → the repo it changes (`codeanalyzer-<lang>`, `python-sdk`, `docs`, …), attached to
   the epic as a **cross-repo sub-issue**. GitHub supports a parent and child in different repos
-  within an org; that is what makes this work.
+  within an org; that is what makes this work. Limits: 100 sub-issues per parent, 8 levels of
+  nesting — neither is a real constraint at PR granularity.
 - Both land on the org project board automatically (**Project 1**, "Codellm-Devkit: Project Planning
   Board") because the org issue forms declare `projects: ["codellm-devkit/1"]`. The board is the
   cross-repo *view*; the epic is the cross-repo *record*. Do not hand-curate the board.
@@ -111,7 +115,7 @@ only work items, one per PR, and the coordination record sits elsewhere.
 | Spec scope | Committed to |
 | --- | --- |
 | Touches **one** repo | that repo's `docs/design/specs/` |
-| Touches **several** repos | `codellm-devkit/codellm-devkit` → `docs/design/specs/` |
+| Touches **several** repos | `codellm-devkit/.github` → `docs/design/specs/` |
 
 A cross-repo design has no natural home in any one of the repos it changes — committing it to
 whichever analyzer happened to go first is arbitrary, and the other four then link sideways into it.
@@ -204,8 +208,8 @@ The epic is filed once, at design time. Children are filed **as each is picked u
 once here.
 
 ```bash
-# 1. The epic — ALWAYS in the umbrella repo, never the deliverable repo.
-gh issue create --repo codellm-devkit/codellm-devkit \
+# 1. The epic — ALWAYS in the org `.github` repo, never the deliverable repo.
+gh issue create --repo codellm-devkit/.github \
   --title "Epic: <one-line change> (<surfaces>)" \
   --label Epic \
   --body-file /path/to/epic-body.md
@@ -220,11 +224,11 @@ gh issue create --repo codellm-devkit/codeanalyzer-<lang> \
 
 # 3. ...and attach it across repos as a sub-issue (takes the child's id, NOT its number)
 child_id=$(gh api repos/codellm-devkit/codeanalyzer-<lang>/issues/CHILD --jq .id)
-gh api -X POST repos/codellm-devkit/codellm-devkit/issues/EPIC/sub_issues \
+gh api -X POST repos/codellm-devkit/.github/issues/EPIC/sub_issues \
   -F sub_issue_id="$child_id"
 
 # 4. Progress rolls up on its own — nothing to tick.
-gh api repos/codellm-devkit/codellm-devkit/issues/EPIC --jq .sub_issues_summary
+gh api repos/codellm-devkit/.github/issues/EPIC --jq .sub_issues_summary
 ```
 
 Use `--body-file` (not inline `--body`) so multi-line bodies survive intact.
