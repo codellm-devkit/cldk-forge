@@ -77,5 +77,10 @@ thread, not a closed one.
 ## Terminal State
 
 finishing-cldk-work is the ladder's exit. If the propagation verdict listed
-follow-on repos, each becomes a new maintaining-cldk entry (file the issues
-before stopping).
+follow-on repos, each becomes a new maintaining-cldk entry.
+
+**Checkpoint before re-entering.** Report what shipped and what the propagation
+verdict found, then `AskUserQuestion` — file the follow-on issues and start the
+first one now, file them and stop, or stop here entirely (see
+`using-cldk-devtools` → Transition Checkpoint). Re-entering the ladder is a
+transition like any other; do not roll straight from a release into new work.

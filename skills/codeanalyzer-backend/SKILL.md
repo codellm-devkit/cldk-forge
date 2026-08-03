@@ -18,9 +18,10 @@ shape. Before you touch code:
   the language, the target level(s), and every schema decision (which kinds/fields/edges this
   language adds). The tracking record is whatever that skill's decomposition decision chose — an
   epic with children for cross-repo work, or a single issue for a single-repo change. **If there is
-  no spec + tracked issue, STOP and go to `designing-cldk-changes`** — do not scaffold, do not "just
-  start," do not settle schema shape here. Do not send it back merely because it is one issue rather
-  than an epic.
+  no spec + tracked issue, STOP** — do not scaffold, do not "just start," do not settle schema shape
+  here. Report that the precondition fails, then checkpoint: `AskUserQuestion` whether to enter
+  `designing-cldk-changes` now or stop here; do not invoke it unasked. Do not send work back merely
+  because it is one issue rather than an epic.
 - A **maintenance escalation** enters here only when it arrives **with its design decision already
   recorded** (a `.claude/SCHEMA_DECISIONS.md` entry + issue). A bare "add a field" with no design
   is not an entry — it goes back to design mode.
@@ -99,3 +100,9 @@ binaries, tag-triggered automation) is `finishing-cldk-work`.
 ## Terminal State
 
 The ONLY skill you invoke after codeanalyzer-backend is cldk-sdk-frontend if any SDK is affected by this work, else finishing-cldk-work.
+
+**Checkpoint first.** Do not auto-invoke it. Report which levels landed and which gates are green,
+name the next rung and why, then `AskUserQuestion` — proceed now, take a different path, or stop
+here (see `using-cldk-devtools` → Transition Checkpoint). Note that the SDK rung usually cannot
+start until this analyzer's release is actually cut, so "stop here for now" is frequently the
+correct answer rather than a delay.

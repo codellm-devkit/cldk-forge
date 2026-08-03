@@ -6,8 +6,34 @@ description: Use when starting any session or task that touches a codellm-devkit
 ## The Rule
 
 Before ANY action on a codellm-devkit repo — including answering questions
-and "quick fixes" — find your entry point in the routing table and invoke
-that skill. If a ladder skill applies, you do not have a choice.
+and "quick fixes" — find your entry point in the routing table. If a ladder
+skill applies, you do not have a choice about *whether* the ladder governs
+the work — but you do not enter or move along it silently. See Transition
+Checkpoint.
+
+## Transition Checkpoint
+
+**Never invoke the next skill without asking first.** Every movement on the
+ladder stops for the user: entering it, moving to the next rung, escalating
+through a gate, and exiting it.
+
+At each transition:
+
+1. **Say where you are** and what you just finished.
+2. **Name the next skill and why it is next.**
+3. **`AskUserQuestion`** — proceed now, take a different path, or stop here.
+4. **Invoke only after the answer.**
+
+This governs the *route*, not the *gates*. A gate's verdict is a fact about the
+work ("this moves schema v2, therefore it is structural"), and the checkpoint
+does not reopen it — you still report the verdict plainly. What the user decides
+is whether to go there **now**, go somewhere else, or stop. Never present
+"skip the gate and patch it anyway" as an option.
+
+**Stopping is always a valid answer.** A run that ends at a triage verdict, or
+parks after the spec is written, is finished work — not abandoned work. Batch
+nothing across a checkpoint: do not start the next rung's work "to save time"
+while asking.
 
 ## The Ladder
 
@@ -49,6 +75,8 @@ that skill. If a ladder skill applies, you do not have a choice.
 | "I'll patch the SDK model directly" | Check the schema contract first — enter the ladder. |
 | "This fix is analyzer-local" | Siblings share the schema. maintaining-cldk runs the propagation sweep. |
 | "I'll release manually just this once" | Releases go through finishing-cldk-work. |
+| "The next rung is obvious, I'll just invoke it" | Obvious to you is not agreed with the user. Checkpoint every transition, including the obvious ones. |
+| "I'll ask at the end, once I've made progress" | The checkpoint is before the transition, not after. Work done past an unasked transition is work the user never approved. |
 
 ## Scope Guard
 

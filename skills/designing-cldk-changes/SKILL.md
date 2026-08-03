@@ -122,6 +122,13 @@ rung: codeanalyzer-backend if any analyzer is touched, else cldk-sdk-frontend if
 only SDK surface is touched, else finishing-cldk-work (docs-only structural
 change).
 
+**Checkpoint first.** Do not auto-invoke it. Summarize the locked decisions, the
+release plan, and where the tracking record lives, then `AskUserQuestion` —
+start the first rung now, start a different one, or stop here (see
+`using-cldk-devtools` → Transition Checkpoint). Parking after the spec and epic
+is a legitimate outcome: the gate is satisfied, and implementation can start in
+a later session without losing anything.
+
 ## Red Flags
 
 | Rationalization | Reality |
