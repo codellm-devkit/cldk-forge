@@ -78,15 +78,13 @@ gh api -X POST repos/codellm-devkit/codellm-devkit/issues/<epic-number>/sub_issu
 gh api repos/codellm-devkit/codellm-devkit/issues/<epic-number> --jq .sub_issues_summary
 ```
 
-`<child-repo>` and the umbrella repo differ on every cross-repo epic — that is the point, and
-GitHub allows it.
-
-Sub-issues work across repos in the same org, so a `python-sdk` child hangs off a
-`codeanalyzer-<lang>` epic directly.
+`<child-repo>` and the umbrella repo differ on every epic — that is the point, and GitHub allows a
+parent and child to live in different repositories within an org. A `python-sdk` child and a
+`codeanalyzer-java` child hang off the same umbrella epic.
 
 ## Provenance: link the spec, don't paste it
 
-`docs/superpowers/specs/` and `docs/superpowers/plans/` are **committed**. The epic links the spec
+`docs/design/specs/` and `docs/design/plans/` are **committed**. The epic links the spec
 it came from; a work item links its plan. Duplicating a design summary into an issue body is what
 made epic bodies unreadable — and a doc is reviewable in a PR and diffable over time, which an issue
 body is not.
@@ -112,8 +110,8 @@ only work items, one per PR, and the coordination record sits elsewhere.
 
 | Spec scope | Committed to |
 | --- | --- |
-| Touches **one** repo | that repo's `docs/superpowers/specs/` |
-| Touches **several** repos | `codellm-devkit/codellm-devkit` → `docs/superpowers/specs/` |
+| Touches **one** repo | that repo's `docs/design/specs/` |
+| Touches **several** repos | `codellm-devkit/codellm-devkit` → `docs/design/specs/` |
 
 A cross-repo design has no natural home in any one of the repos it changes — committing it to
 whichever analyzer happened to go first is arbitrary, and the other four then link sideways into it.
@@ -125,7 +123,7 @@ Put it with the epic that coordinates it.
 Title: Epic: <one-line change> (<affected surfaces, e.g. analyzer + SDK>)
 
 SPEC
-<path to the committed spec, e.g. docs/superpowers/specs/2026-07-07-v2-roadmap-design.md>
+<path to the committed spec, e.g. docs/design/specs/2026-07-07-v2-roadmap-design.md>
 
 SUMMARY
 <2–4 sentences from the spec: what changes and why. Name the schema-v2 impact
@@ -170,7 +168,7 @@ Fill `<slots>` from the design decisions; delete parts that don't apply.
 Title: <unit of work closed by ONE PR, e.g. "codeanalyzer-<lang>: L1 symbol table + call graph">
 
 PLAN (optional)
-<path to the committed plan, e.g. docs/superpowers/plans/2026-07-14-cpg-models.md>
+<path to the committed plan, e.g. docs/design/plans/2026-07-14-cpg-models.md>
 
 PROBLEM
 <What this repo lacks today and what this issue adds. One paragraph. Cite file:line.>

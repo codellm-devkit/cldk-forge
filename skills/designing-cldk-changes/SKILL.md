@@ -101,8 +101,8 @@ issue count: do not skip the record, and do not inflate it either.
 1. **Produce and COMMIT the spec** — the triage table, the design-loop decisions,
    the affected-repo list, and the release plan. Specs are committed as provenance,
    so they are reviewable and diffable. A **single-repo** spec goes in that repo's
-   `docs/superpowers/specs/`; a **cross-repo** spec goes in the umbrella repo,
-   `codellm-devkit/codellm-devkit` → `docs/superpowers/specs/`, next to the epic
+   `docs/design/specs/`; a **cross-repo** spec goes in the umbrella repo,
+   `codellm-devkit/codellm-devkit` → `docs/design/specs/`, next to the epic
    that coordinates it.
 2. **File what the decomposition decision chose**, using
    `references/epic-and-issue-templates.md`. Issue bodies come from the org-level
