@@ -30,8 +30,9 @@ contract decision and the only open question is how its PRs sequence, that is
 `designing-cldk-changes`'s decomposition step, not a roadmap. Go L3/L4 on one
 analyzer is one decision; do not manufacture a roadmap for it.
 
-Candidates may be vague. Vagueness is fine and expected — the collision sweep below
-works on rough shapes.
+Vague *wording* is fine and expected — the sweep works on rough shapes. Vague
+*altitude* is not: a theme left whole has to be broken into the decisions it
+contains before the sweep can compare anything (step 1).
 
 ## The Loop
 
@@ -96,12 +97,17 @@ else. The roadmap records the rest; the tracker does not need to mirror it.
 
 ## <HARD-GATE>
 
-No candidate may enter `designing-cldk-changes` until the **collision sweep has run
-and its group is known**. Designing a feature in isolation that shares vocabulary
-with another candidate is the one planning mistake the parity clause makes
-permanent — every other planning error is recoverable by re-planning.
+No candidate may enter `designing-cldk-changes` until **every theme has been
+decomposed to contract-decision altitude AND the collision sweep has run over the
+result**. Both halves, or neither counts: a sweep across undecomposed themes runs
+clean, reports no groups, and satisfies nothing — the collision is still there, just
+invisible.
 
-The gate is on the sweep, never on the roadmap's length or polish.
+Designing a feature in isolation that shares vocabulary with another candidate is
+the one planning mistake the parity clause makes permanent. Every other planning
+error is recoverable by re-planning.
+
+The gate is on decomposition and the sweep, never on the roadmap's length or polish.
 
 ## Terminal State
 
@@ -124,6 +130,7 @@ happen in a later session without losing anything.
 | "File all six epics so the board shows the quarter." | Six idle epics is inventory, and inventory rots. File the one you are starting; the roadmap records the rest. |
 | "These are separate features, design them separately." | Run the collision sweep first. Shared vocabulary decided twice is decided wrong, permanently. |
 | "Put the roadmap in a tracking issue so it's visible." | Docs carry content, trackers carry state. The roadmap is a committed doc; the Project board is the live view. |
+| "'Microservice analysis' is one row on the roadmap." | It is a theme, not a decision. Undecomposed, the sweep runs clean and finds nothing — the gate passes and the collision ships anyway. |
 | "The user is busy; I'll group and order these myself." | Grouping and ordering are the user's calls. `AskUserQuestion`, never solo. |
 
 ## Scope Guard
