@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The marketplace resolves the plugin from this repo, so plugin.json's version
+      # IS what users install. A tag that disagrees with it ships a plugin lying about
+      # its own version, and the installed_plugins.json pin silently mismatches.
+      - name: Version matches tag
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF#refs/tags/v}"
+          manifest=$(jq -r .version .claude-plugin/plugin.json)
+          [ "$tag" = "$manifest" ] || {
+            echo "::error::tag v$tag != plugin.json $manifest"; exit 1; }
+
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        # Body comes from the hand-written CHANGELOG section for this tag. Refuse to
+        # publish a blank release rather than ship an empty one.
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF#refs/tags/v}"
+          notes=$(awk -v h="## [$version]" '
+            !seen && index($0, h) == 1 { seen = 1; next }
+            seen && index($0, "## [") == 1 { exit }
+            seen { print }
+          ' CHANGELOG.md)
+          [ -n "$notes" ] || {
+            echo "::error::no CHANGELOG.md entry for $version"; exit 1; }
+          {
+            echo "notes<<__EOF__"
+            echo "$notes"
+            echo "__EOF__"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.notes.outputs.notes }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
