@@ -31,10 +31,15 @@ diffs them.
 ```
                      using-cldk-devtools  (dispatcher)
                               │
+   too plural for one design  │
+              ▼               │
+   planning-cldk-work         │   roadmap doc + ONE epic
+        │ pick one decision   │
+        ▼                     ▼
         structural work       │ upkeep work
               ▼               ▼
    designing-cldk-changes   maintaining-cldk
-        │ spec + GitHub epic     │  HARD GATE: escalate to design mode
+        │ spec + tracking record │  HARD GATE: escalate to design mode
         ▼                        │  if the fix moves schema v2 / public API
    codeanalyzer-backend          │
         ▼                        │
@@ -49,6 +54,7 @@ diffs them.
 
 | Work type | Entry point | Path |
 | --- | --- | --- |
+| **Work too plural for one design session** — a theme that decomposes into several contract decisions ("microservice analysis"), or several initiatives competing for a quarter | planning-cldk-work | plan → design (one decision) → … |
 | New language for CLDK | designing-cldk-changes | design → backend → frontend → finishing |
 | Schema v2 evolution / migration | designing-cldk-changes | design → backend (all affected analyzers) → frontend (all affected SDKs) → finishing |
 | New analysis level (L2/L3/L4) for a language | designing-cldk-changes | design → backend → frontend (if surface changes) → finishing |
@@ -66,7 +72,18 @@ diffs them.
 before any action on a codellm-devkit repo, including quick fixes, questions, and issue triage;
 in practice it is injected automatically by the `SessionStart` hook rather than invoked by name.
 **References:** none — it stays under 500 words by design and defers all workflow detail to the
-other five skills.
+other skills.
+
+### [`planning-cldk-work`](skills/planning-cldk-work/)
+
+**Owns:** everything upstream of a single design session — decomposing a theme into the contract
+decisions it contains, the **collision sweep** that catches candidates sharing schema vocabulary
+(which the parity clause makes permanent once coined), dependency order, release trains, and the
+explicit not-now list. Produces a committed roadmap at `codellm-devkit/.github` →
+`docs/design/roadmap.md`, plus an epic for the one decision actually starting — never one per
+candidate. **Triggers:** the work cannot be stated as a single contract decision, either because a
+theme contains several or because several initiatives compete. **References:**
+`roadmap-template.md`.
 
 ### [`designing-cldk-changes`](skills/designing-cldk-changes/)
 
@@ -99,7 +116,7 @@ required propagation verdict).
 table (L1), call graph (L2), intraprocedural dataflow (L3), interprocedural SDG (L4) — into the
 canonical schema v2, in both the `analysis.json` and Neo4j projections. **Triggers:** adding a
 language, growing an analyzer through the levels, or migrating an existing analyzer to schema
-v2 — only once a spec + GitHub epic exists from `designing-cldk-changes` (or a maintenance
+v2 — only once a spec + tracking record exists from `designing-cldk-changes` (or a maintenance
 escalation arrives with its design decision already recorded). **Key references:**
 [`analyzer-architecture.md`](skills/codeanalyzer-backend/references/analyzer-architecture.md),
 [`tooling-menu.md`](skills/codeanalyzer-backend/references/tooling-menu.md),

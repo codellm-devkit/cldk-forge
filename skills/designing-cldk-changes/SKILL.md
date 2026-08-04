@@ -19,6 +19,12 @@ any cross-repo feature. If it arrived as a "small fix" that turned out to move
 the schema v2 output or the public SDK API, **maintaining-cldk**'s contract gate
 escalated it here — say so and continue; it is now a structural change, not a fix.
 
+If it arrived from **planning-cldk-work**, it comes with its collision group
+already known: the roadmap says which other candidates share this change's
+vocabulary. Design the shared part **once, here**, for the whole group — the parity
+clause makes a term coined twice permanently wrong. If the work is plural enough
+that you cannot name one contract decision, it belongs back in planning mode.
+
 ## Contract-Impact Triage
 
 **First move, always — before any design detail.** Answer, out loud:
