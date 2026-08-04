@@ -4,9 +4,9 @@ All notable changes to the CLDK DevTools plugin are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0] — unreleased
+## [0.4.0] — 2026-08-04
 
-### Added
+### ✨ Added
 
 - **`planning-cldk-work`** — a new mode upstream of design, for work that cannot be
   stated as a single contract decision: a theme that decomposes into several
@@ -22,7 +22,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.3.0] — 2026-08-03
 
-### Changed — **BREAKING** (behavioural)
+### ⚠️ Changed — **BREAKING** (behavioural)
 
 This release changes how agents decompose and track work. Sessions running under
 0.2.0 conventions will behave differently after updating; anyone relying on the old
@@ -52,7 +52,7 @@ shape should read this before upgrading.
   invoking the next skill. An end-to-end run is materially more interactive than
   under 0.2.0.
 
-### Added
+### ✨ Added
 
 - Issue bodies now come from org-level forms in `codellm-devkit/.github`
   (`epic.yml`, `work_item.yml`), with the convention in that repo's
