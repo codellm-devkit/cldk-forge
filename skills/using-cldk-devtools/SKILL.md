@@ -48,7 +48,7 @@ while asking.
         structural work       │ upkeep work
               ▼               ▼
    designing-cldk-changes   maintaining-cldk
-        │ spec + GitHub epic     │  HARD GATE: escalate to design mode
+        │ spec + tracking record │  HARD GATE: escalate to design mode
         ▼                        │  if the fix moves schema v2 / public API
    codeanalyzer-backend          │
         ▼                        │

@@ -54,7 +54,7 @@ diffs them.
 
 | Work type | Entry point | Path |
 | --- | --- | --- |
-| Work too plural for one design session — a theme decomposing into several contract decisions, or several initiatives competing for a quarter | planning-cldk-work | plan → design (one decision) → … |
+| **Work too plural for one design session** — a theme that decomposes into several contract decisions ("microservice analysis"), or several initiatives competing for a quarter | planning-cldk-work | plan → design (one decision) → … |
 | New language for CLDK | designing-cldk-changes | design → backend → frontend → finishing |
 | Schema v2 evolution / migration | designing-cldk-changes | design → backend (all affected analyzers) → frontend (all affected SDKs) → finishing |
 | New analysis level (L2/L3/L4) for a language | designing-cldk-changes | design → backend → frontend (if surface changes) → finishing |
@@ -116,7 +116,7 @@ required propagation verdict).
 table (L1), call graph (L2), intraprocedural dataflow (L3), interprocedural SDG (L4) — into the
 canonical schema v2, in both the `analysis.json` and Neo4j projections. **Triggers:** adding a
 language, growing an analyzer through the levels, or migrating an existing analyzer to schema
-v2 — only once a spec + GitHub epic exists from `designing-cldk-changes` (or a maintenance
+v2 — only once a spec + tracking record exists from `designing-cldk-changes` (or a maintenance
 escalation arrives with its design decision already recorded). **Key references:**
 [`analyzer-architecture.md`](skills/codeanalyzer-backend/references/analyzer-architecture.md),
 [`tooling-menu.md`](skills/codeanalyzer-backend/references/tooling-menu.md),
