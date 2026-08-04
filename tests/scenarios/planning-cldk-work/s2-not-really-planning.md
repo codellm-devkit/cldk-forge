@@ -21,9 +21,3 @@ FAIL:
 - it writes `docs/design/roadmap.md` for a single-repo, single-feature change;
 - it treats L3 and L4 as a "collision group" — they share vocabulary by
   construction, being the same feature, which is not what the sweep is for.
-
-This is the counterpart to S1. S1 checks the mode fires when it should; S2 checks
-it does not fire on ordinary single-feature work dressed in planning language.
-Entry preconditions have historically been the weak point in this plugin, and this
-mode's precondition — **two or more candidate features, none chosen** — is doing
-the load-bearing work.

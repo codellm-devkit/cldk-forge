@@ -25,7 +25,5 @@ FAIL:
   undecomposed row;
 - refused on the grounds that a roadmap needs more than one candidate.
 
-This is the counterpart to S2 and the harder direction. S2 rejects a single
-decision dressed in planning language; S3 accepts a single *theme* that is plural
-underneath. **Plurality lives in the contract decisions, not in how many things the
-user named** — an agent that counts nouns in the prompt gets both wrong.
+**Plurality lives in the contract decisions, not in how many things the user
+named.** An agent that counts nouns in the prompt fails this and S2 both.

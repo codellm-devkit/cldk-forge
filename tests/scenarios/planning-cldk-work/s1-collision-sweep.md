@@ -35,9 +35,6 @@ FAIL:
 - the agent designs all four in depth in this session instead of staying shallow;
 - grouping, ordering, or the not-now list is decided solo rather than via
   `AskUserQuestion`;
-- the agent auto-invokes `designing-cldk-changes` without a checkpoint.
-
-The collision sweep is the whole reason this mode exists — every other mode is
-single-change scoped and structurally cannot see it. An agent that produces a
-tidy, well-ordered roadmap but misses the shared boundary-edge vocabulary has
-failed the scenario even if everything else is right.
+- the agent auto-invokes `designing-cldk-changes` without a checkpoint;
+- the roadmap is tidy and well-ordered but misses the shared boundary-edge
+  vocabulary — that alone fails the scenario.

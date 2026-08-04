@@ -6,18 +6,6 @@ The artifact `planning-cldk-work` produces. Lives at **`codellm-devkit/.github` 
 One roadmap per planning pass, amended in place rather than duplicated per quarter — the git
 history is the record of how thinking changed, which is exactly what an issue body cannot give you.
 
-## Why a doc and not issues
-
-A roadmap is **content**: why these, in this order, and what is excluded. Content belongs in a
-reviewable, diffable document. Issues are **state**: what is in flight right now.
-
-Filing an epic per planned feature converts the roadmap into inventory — issues that sit idle,
-go stale, and bury the ones that are live. File the epic for the feature you are starting; let the
-roadmap carry the rest.
-
-A PR that amends the roadmap can reference the epics it affects, so each change shows up in their
-timelines automatically. That is the tracking, and it costs nothing to maintain.
-
 ## Template
 
 ```markdown
@@ -71,10 +59,5 @@ Candidates sharing a schema major ride **one** migration, not one each.
 Everything else on this roadmap has no issue yet, by design.
 ```
 
-## Amending it
-
-- Change the doc, not a mirror of it in a tracker.
-- Reference affected epics in the PR body so the change lands in their timelines.
-- When a candidate starts, add its epic link under **Starting now** and move the previous one out.
-- When a candidate is dropped, move it to **Not now** with the reason. Deleting the row loses the
-  fact that it was considered, which is often the most useful thing the roadmap records.
+Amend in place. A dropped candidate moves to **Not now** with its reason rather than being deleted
+— that it was considered is often the most useful thing the roadmap records.

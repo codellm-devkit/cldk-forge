@@ -20,13 +20,6 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   sweep, a single decision dressed in planning language, and a single theme that is
   plural underneath.
 
-### Fixed
-
-- The dispatcher's ladder diagram still read "spec + GitHub epic" after 0.3.0
-  renamed it to "spec + tracking record", and the README's routing row for the new
-  mode disagreed with the dispatcher's. Both are now in sync
-  (`tests/consistency/check-readme-dispatcher-sync.sh` passes).
-
 ## [0.3.0] — 2026-08-03
 
 ### Changed — **BREAKING** (behavioural)
@@ -66,7 +59,3 @@ shape should read this before upgrading.
   `CONTRIBUTING.md`.
 - Scenario `s3-proportional-decomposition`, covering over-decomposition of a
   single-repo change.
-
-## [0.2.0]
-
-Baseline for this changelog. See the repository history for earlier changes.

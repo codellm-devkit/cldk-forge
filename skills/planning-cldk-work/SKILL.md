@@ -19,15 +19,11 @@ designing here.
 **The test: can this be stated as a single contract decision?** If yes, it is design
 mode. If no, it is planning. Two shapes fail that test, and both belong here:
 
-- **A theme that decomposes into several contract decisions.** "Microservice static
-  analysis" is not a feature — it contains boundary-edge vocabulary, service
-  topology, per-framework entrypoint detection, cross-service reachability. Those
-  compete for order, some are not-now, and one of them may collide with a different
-  theme entirely. One initiative, still plural.
+- **A theme that decomposes into several contract decisions** — "microservice static
+  analysis" is one initiative, still plural. Step 1 of the loop breaks it down.
 - **Several initiatives competing for the same quarter.** The portfolio case.
 
-Either way there is something to **order, group, and exclude** — and that is what
-this mode does that no other can.
+Either way there is something to **order, group, and exclude**.
 
 Counter-test, so the mode does not fire on ordinary work: if you can name the one
 contract decision and the only open question is how its PRs sequence, that is
@@ -71,9 +67,6 @@ is coined wrong permanently.
 
 Output: **collision groups**. A group is a set of candidates plus the vocabulary
 they share.
-
-Nothing else in the ladder can find these, because nothing else sees more than one
-change at a time. This step is why the mode is worth having.
 
 ### 3. Dependency order
 
@@ -131,10 +124,6 @@ happen in a later session without losing anything.
 | "File all six epics so the board shows the quarter." | Six idle epics is inventory, and inventory rots. File the one you are starting; the roadmap records the rest. |
 | "These are separate features, design them separately." | Run the collision sweep first. Shared vocabulary decided twice is decided wrong, permanently. |
 | "Put the roadmap in a tracking issue so it's visible." | Docs carry content, trackers carry state. The roadmap is a committed doc; the Project board is the live view. |
-| "Let's plan all six in depth while we're here." | Planning is shallow across many. Depth is design mode, per feature, when that feature starts. |
-| "We'll work out the ordering as we go." | Dependency order *is* the plan. Without it you have a list of wishes. |
-| "There's only one contract decision here, but let's roadmap it anyway." | Then this is not planning. Route to designing-cldk-changes and skip the ceremony. |
-| "'Microservice analysis' is one row on the roadmap." | It is a theme, not a decision. Decompose it into the contract decisions it contains, or the collision sweep has nothing to compare and the ordering is fiction. |
 | "The user is busy; I'll group and order these myself." | Grouping and ordering are the user's calls. `AskUserQuestion`, never solo. |
 
 ## Scope Guard
