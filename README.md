@@ -31,11 +31,6 @@ diffs them.
 ```
                      using-cldk-devtools  (dispatcher)
                               │
-   too plural for one design  │
-              ▼               │
-   planning-cldk-work         │   roadmap doc + ONE epic
-        │ pick one decision   │
-        ▼                     ▼
         structural work       │ upkeep work
               ▼               ▼
    designing-cldk-changes   maintaining-cldk
@@ -54,7 +49,6 @@ diffs them.
 
 | Work type | Entry point | Path |
 | --- | --- | --- |
-| **Work too plural for one design session** — a theme that decomposes into several contract decisions ("microservice analysis"), or several initiatives competing for a quarter | planning-cldk-work | plan → design (one decision) → … |
 | New language for CLDK | designing-cldk-changes | design → backend → frontend → finishing |
 | Schema v2 evolution / migration | designing-cldk-changes | design → backend (all affected analyzers) → frontend (all affected SDKs) → finishing |
 | New analysis level (L2/L3/L4) for a language | designing-cldk-changes | design → backend → frontend (if surface changes) → finishing |
@@ -72,18 +66,7 @@ diffs them.
 before any action on a codellm-devkit repo, including quick fixes, questions, and issue triage;
 in practice it is injected automatically by the `SessionStart` hook rather than invoked by name.
 **References:** none — it stays under 500 words by design and defers all workflow detail to the
-other skills.
-
-### [`planning-cldk-work`](skills/planning-cldk-work/)
-
-**Owns:** everything upstream of a single design session — decomposing a theme into the contract
-decisions it contains, the **collision sweep** that catches candidates sharing schema vocabulary
-(which the parity clause makes permanent once coined), dependency order, release trains, and the
-explicit not-now list. Produces a committed roadmap at `codellm-devkit/.github` →
-`docs/design/roadmap.md`, plus an epic for the one decision actually starting — never one per
-candidate. **Triggers:** the work cannot be stated as a single contract decision, either because a
-theme contains several or because several initiatives compete. **References:**
-`roadmap-template.md`.
+other five skills.
 
 ### [`designing-cldk-changes`](skills/designing-cldk-changes/)
 

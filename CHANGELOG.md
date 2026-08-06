@@ -4,6 +4,20 @@ All notable changes to the CLDK DevTools plugin are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] — 2026-08-06
+
+### ⚠️ Removed — **BREAKING**
+
+- **`planning-cldk-work` dropped.** The mode added in 0.4.0 is gone: skill, roadmap
+  template, scenarios `s1`–`s3`, its dispatcher routing row and red flags, and the
+  `designing-cldk-changes` precondition that referenced it. The roadmap artifact it
+  produced is no longer part of the ladder.
+- Consequence: work spanning several contract decisions has no dedicated entry point
+  again. Route it to `designing-cldk-changes` per decision. The contract-collision
+  problem the mode addressed — two candidates coining the same schema vocabulary
+  independently, which the parity clause makes permanent — is now unguarded by
+  tooling and rests on the reviewer noticing.
+
 ## [0.4.0] — 2026-08-04
 
 ### ✨ Added
