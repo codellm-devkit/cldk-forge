@@ -4,6 +4,16 @@ All notable changes to the CLDK DevTools plugin are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] — 2026-08-06
+
+### 🔧 Changed
+
+- The roadmap skeleton moves to `codellm-devkit/.github` →
+  `docs/design/roadmap-template.md`, beside the issue forms. It was prose in a fenced
+  block inside this skill's reference — not copyable, not where the artifact lands,
+  and carrying editorial voice into every roadmap made from it. The reference now
+  links the template and keeps only the skill-side rules.
+
 ## [0.4.0] — 2026-08-04
 
 ### ✨ Added
