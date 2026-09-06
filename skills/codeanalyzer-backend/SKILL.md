@@ -23,7 +23,7 @@ shape. Before you touch code:
   `designing-cldk-changes` now or stop here; do not invoke it unasked. Do not send work back merely
   because it is one issue rather than an epic.
 - A **maintenance escalation** enters here only when it arrives **with its design decision already
-  recorded** (a `.claude/SCHEMA_DECISIONS.md` entry + issue). A bare "add a field" with no design
+  recorded** (a `CLAUDE.md` Schema decisions entry + issue). A bare "add a field" with no design
   is not an entry — it goes back to design mode.
 
 ## The Keystone

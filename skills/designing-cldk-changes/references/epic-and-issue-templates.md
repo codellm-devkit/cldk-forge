@@ -139,7 +139,7 @@ AFFECTED REPOS (from Contract-Impact Triage)
   - …
 
 DESIGN DECISIONS (locked with the user before build starts)
-  - <decision 1 — recorded in .claude/SCHEMA_DECISIONS.md / FACADE_DECISIONS.md>
+  - <decision 1 — recorded in the repo's CLAUDE.md under Schema decisions / Facade decisions>
   - <decision 2>
   - Scope guard: <what is explicitly OUT of scope for this change>
 
